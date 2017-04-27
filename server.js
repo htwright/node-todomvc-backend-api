@@ -11,12 +11,14 @@ app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
   res.header('Access-Control-Max-Age', '86400');
-  next();
-});
-app.use((req, res, next)=>{
   res.header('location', 'trash');
+
   next();
 });
+// app.use((req, res, next)=>{
+// res.header('location', 'trash');
+//   next();
+// });
 
 // app.post('/api/items', (req, res) =>{
 //   res.status(201).json(req.body);
