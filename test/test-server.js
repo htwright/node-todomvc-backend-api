@@ -98,7 +98,7 @@ describe('TodoMVC API:', () => {
         .insert(newItem)
         .returning(['id'])
         .then(function (result) {
-            itemId = result[0].id;
+            itemId = result.id;
             return chai.request(app).get('/api/items/').send();
         })
         .then(function (result) {
@@ -155,7 +155,7 @@ describe('TodoMVC API:', () => {
     /**
      * This test requires you to wire-up the POST /api/items endpoint to the database
      */
-        it.only('should persist the data and respond with new item id', function () {
+        it('should persist the data and respond with new item id', function () {
             const newItem = { title: 'Walk the dog' };
             return chai.request(app)
         .post('/api/items')
@@ -202,7 +202,7 @@ describe('TodoMVC API:', () => {
     /**
      * This test requires you to add a `completed` column to the database which defaults to false
      */
-        it('should respond with a `completed` property is set to false', function () {
+        it.only('should respond with a `completed` property is set to false', function () {
             const newItem = { title: 'Mow the lawn' };
             return chai.request(app)
         .post('/api/items')

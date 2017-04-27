@@ -18,12 +18,12 @@ app.use(function(req, res, next) {
 
 app.get('/api/items', (req, res) => {
     knex('items').select().then((result)=>res.status(200).json(result));
-    
+
 });
 
 app.get('/api/items/:id', (req, res) => {
     let {id} = req.params;
-    knex('items').select().where('id', id).then((result)=>res.status(200).json(result));
+    knex('items').select().where('id', id).then((result)=>res.status(200).json(result[0]));
 });
 
 app.post('/api/items', (req, res) => {
@@ -37,7 +37,16 @@ app.post('/api/items', (req, res) => {
 				.send(message);
         }
     }
-    knex('items').insert({title: req.body.title}).returning(['id', 'title']).then((result)=> res.status(201).json(result[0]));
+		//http://chai-http.test
+    knex('items').insert({title: req.body.title}).returning(['id', 'title']).then(function(result){
+			result[0].url = `localhost:8080/api/items/${result[0].id}`;
+			// result[0].test = '5';
+			// console.log(result);
+		//  res.body.url =`localhost:8080/api/items/${result[0].id}`;
+		 res.status(201).json(result[0]);
+	 });
+		//req.body.url = localhost:8080/api/items/${id}
+
 });
 
 function runServer(database = DATABASE, port = PORT) {
