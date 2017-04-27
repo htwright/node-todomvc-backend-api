@@ -38,16 +38,26 @@ app.post('/api/items', (req, res) => {
         }
     }
 		//http://chai-http.test
-    knex('items').insert({title: req.body.title}).returning(['id', 'title']).then(function(result){
-			result[0].url = `localhost:8080/api/items/${result[0].id}`;
-			// result[0].test = '5';
-			// console.log(result);
-		//  res.body.url =`localhost:8080/api/items/${result[0].id}`;
-		 res.status(201).json(result[0]);
-	 });
-		//req.body.url = localhost:8080/api/items/${id}
-
+    knex('items').insert({title: req.body.title}).returning(['id', 'title', 'completed'])
+    .then(function(result){
+        result[0].url = `localhost:8080/api/items/${result[0].id}`;
+        res.header('location', result[0].url);
+        res.status(201).json(result[0]);
+    });
 });
+
+app.put('/api/items/:id', (req, res) => {
+    knex('items')
+    .where('id', req.params.id)
+    .update('title', req.body.title)
+    .returning(['id', 'title'])
+    .then((result) => {
+        console.log(result);
+        res.json(result[0]);
+    });
+});
+
+
 
 function runServer(database = DATABASE, port = PORT) {
     return new Promise((resolve, reject) => {

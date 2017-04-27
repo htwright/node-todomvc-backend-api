@@ -202,7 +202,7 @@ describe('TodoMVC API:', () => {
     /**
      * This test requires you to add a `completed` column to the database which defaults to false
      */
-        it.only('should respond with a `completed` property is set to false', function () {
+        it('should respond with a `completed` property is set to false', function () {
             const newItem = { title: 'Mow the lawn' };
             return chai.request(app)
         .post('/api/items')
@@ -261,7 +261,7 @@ describe('TodoMVC API:', () => {
     /**
      * This test requires you to wireup the database to the PUT endpoint so the title can be changed
      */
-        it('should change a todo title by PUTing', function () {
+        it.only('should change a todo title by PUTing', function () {
             const newItem = { title: 'Buy soy milk' };
             const putItem = { title: 'Buy real milk' };
             let itemId;
