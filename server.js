@@ -47,14 +47,22 @@ app.post('/api/items', (req, res) => {
 });
 
 app.put('/api/items/:id', (req, res) => {
+	if ('title' in req.body){
+
     knex('items')
     .where('id', req.params.id)
     .update('title', req.body.title)
     .returning(['id', 'title'])
     .then((result) => {
-        console.log(result);
-        res.json(result[0]);
+			        res.json(result[0]);
     });
+	} else{
+		knex('items')
+		.where('id', req.params.id)
+		.update('completed', 'true')
+		.returning(['completed', 'title', 'id'])
+		.then((response) => res.json(response[0]))
+	}
 });
 
 

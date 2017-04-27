@@ -257,11 +257,11 @@ describe('TodoMVC API:', () => {
 
     });
 
-    describe('PUT endpoint', function () {
+    describe.only('PUT endpoint', function () {
     /**
      * This test requires you to wireup the database to the PUT endpoint so the title can be changed
      */
-        it.only('should change a todo title by PUTing', function () {
+        it('should change a todo title by PUTing', function () {
             const newItem = { title: 'Buy soy milk' };
             const putItem = { title: 'Buy real milk' };
             let itemId;
@@ -301,6 +301,7 @@ describe('TodoMVC API:', () => {
             return chai.request(app).put(`/api/items/${itemId}`).send(putItem);
         })
         .then(function (result) {
+          console.log(result.body);
             result.body.should.have.property('completed', true);
             return knex
             .select('completed')
