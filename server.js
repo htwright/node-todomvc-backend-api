@@ -13,13 +13,24 @@ app.use(function(req, res, next) {
 	res.header('Access-Control-Max-Age', '86400');
 	next();
 });
+app.use((req, res, next)=>{
+  res.header('location', 'trash');
+  next();
+})
 
-
-
+// app.post('/api/items', (req, res) =>{
+//   res.status(201).json(req.body);
+// })
 // ADD GET POST PUT DELETE ENDPOINTS HERE
 app.get('/api/items', (req, res) => {
-	res.status(200).json([]);
+  knex('items').select().orderBy('id', 'desc').then((result)=>res.status(200).json(result));
+
 });
+
+app.post('/api/items', (req, res) => {
+  knex('items').insert({title:req.body.title}).then((result)=>res.status(201));
+
+})
 
 let server;
 let knex;

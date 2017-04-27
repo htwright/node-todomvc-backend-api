@@ -20,7 +20,7 @@ describe('TodoMVC API:', () => {
 });
 	});
 
-  // after runs at the end of the tests 
+  // after runs at the end of the tests
 	after(() => {
 		return knex.destroy()
       .then(closeServer);
@@ -36,7 +36,7 @@ describe('TodoMVC API:', () => {
      * Hint: https://enable-cors.org/server_expressjs.html
      *  (The hint is not the complete solution, you will need to expand on it)
      */
-		it.only('should respond to GET with status 200 and an array', function () {
+		it('should respond to GET with status 200 and an array', function () {
 		return chai.request(app)
         .get('/api/items')
         .set('origin', 'http://chai-http.test')
@@ -57,9 +57,9 @@ describe('TodoMVC API:', () => {
     /**
      * This test requires you to create a skeleton POST endpoint which responds with status 201,
      * along with the item POSTed and a location header
-     * 
+     *
      * NOTE: the location head value can be blank or placeholder text, for now
-     * 
+     *
      * HINT: http://www.restpatterns.org/HTTP_Status_Codes/204_-_No_Content
      */
 		it('should respond to POST with status 201 and the item title which was POSTed to it', function () {
@@ -82,8 +82,8 @@ describe('TodoMVC API:', () => {
 	});
 
   /** Create a database and wire-up endpoints
-   * PLEASE NOTE: 
-   * - You will need to decipher the database name, table name and column names from the 
+   * PLEASE NOTE:
+   * - You will need to decipher the database name, table name and column names from the
    * config.js, starter server.js and the tests
    * - And previously working tests may fail as the database is wired-up
    */
@@ -91,7 +91,7 @@ describe('TodoMVC API:', () => {
     /**
      * This requires you to wire-up the GET /api/items endpoint to knex and postgres
      */
-		it('should respond with the items in the database', function () {
+		it.only('should respond with the items in the database', function () {
 		const newItem = { title: 'Buy soy milk' };
 		let itemId;
 		return knex('items')
@@ -113,10 +113,10 @@ describe('TodoMVC API:', () => {
 	});
 
     /**
-     * This requires you to create a GET /api/items/:id endpoint and 
+     * This requires you to create a GET /api/items/:id endpoint and
      * wire it up to knex and postgres
      */
-		it('should respond with the items in the database', function () {
+		it('should respond with the item corresponding to the ID entered', function () {
 		const newItem = { title: 'Buy soy milk' };
 		let itemId;
 		return knex('items')
@@ -177,7 +177,7 @@ describe('TodoMVC API:', () => {
 	});
 
     /**
-     * This test requires you to add a URL to the response which has the location of the new item. 
+     * This test requires you to add a URL to the response which has the location of the new item.
      */
 		it('should respond with a URL which can be used to retrieve the new item', function () {
 		const newItem = { title: 'Buy milk' };
@@ -223,10 +223,10 @@ describe('TodoMVC API:', () => {
 });
 	});
 
-    /** 
-     * This test requires you to add a `location` header with the URL of the item 
-     * 
-     * HINT: 
+    /**
+     * This test requires you to add a `location` header with the URL of the item
+     *
+     * HINT:
      * - http://stackoverflow.com/a/10185427
      * - https://expressjs.com/en/api.html#req.protocol
      */
