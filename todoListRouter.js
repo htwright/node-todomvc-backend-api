@@ -37,7 +37,6 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-  console.log(req.body);
   knex('items')
   .where('id', req.params.id)
   .update({title: req.body.title, completed: req.body.completed})
