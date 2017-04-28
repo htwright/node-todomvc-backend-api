@@ -48,10 +48,11 @@ app.post('/api/items', (req, res) => {
     //   .returning(['id', 'title', 'completed', 'url'])
 
     // })
-      .then(result =>res.status(201).json(result))
+      .then(result =>res.status(201).json(result));
 });
 
 app.put('/api/items/:id', (req, res) => {
+  console.log(req.body);
   if ('title' in req.body){
 
     knex('items')
@@ -62,16 +63,18 @@ app.put('/api/items/:id', (req, res) => {
       res.json(result[0]);
     });
   } else{
+    console.log('inside else');
     knex('items')
 		.where('id', req.params.id)
-		.update('completed', 'true')
+		.update('completed', true)
 		.returning(['completed', 'title', 'id'])
 		.then((response) => res.json(response[0]));
   }
 });
+
 app.delete('/api/items/:id', (req, res) => {
   knex('items').where('id', req.params.id).delete().then(resp => res.json(resp));
-})
+});
 
 
 function runServer(database = DATABASE, port = PORT) {
@@ -96,7 +99,7 @@ function closeServer() {
       console.log('Closing servers');
       server.close(err => {
         if (err) {
-            return reject(err);
+          return reject(err);
         }
         resolve();
       });
