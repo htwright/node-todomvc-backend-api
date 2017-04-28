@@ -48,28 +48,28 @@ app.post('/api/items', (req, res) => {
     //   .returning(['id', 'title', 'completed', 'url'])
 
     // })
-      .then(result =>res.status(201).json(result));
+      .then(result =>res.status(201).json(result[0]));
 });
 
 app.put('/api/items/:id', (req, res) => {
   console.log(req.body);
-  if ('title' in req.body){
+  // if ('title' in req.body){
 
     knex('items')
     .where('id', req.params.id)
-    .update('title', req.body.title)
-    .returning(['id', 'title'])
+    .update({title: req.body.title, completed: req.body.completed})
+    .returning(['id', 'title', 'completed'])
     .then((result) => {
       res.json(result[0]);
     });
-  } else{
-    console.log('inside else');
-    knex('items')
-		.where('id', req.params.id)
-		.update('completed', true)
-		.returning(['completed', 'title', 'id'])
-		.then((response) => res.json(response[0]));
-  }
+//   } else{
+//     console.log('inside else');
+//     knex('items')
+// 		.where('id', req.params.id)
+// 		.update('completed', true)
+// 		.returning(['completed', 'title', 'id'])
+// 		.then((response) => res.json(response[0]));
+//   }
 });
 
 app.delete('/api/items/:id', (req, res) => {
