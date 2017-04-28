@@ -10,8 +10,6 @@ let server;
 let knex;
 
 app.use('/', corsRouter);
-
-
 app.use('/api/items', todoListRouter);
 
 

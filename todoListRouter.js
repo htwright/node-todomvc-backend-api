@@ -10,7 +10,6 @@ let knex = require('knex')(DATABASE);
 
 router.get('/', (req, res) => {
   knex('items').select().then((result)=>res.status(200).json(result));
-
 });
 
 router.get('/:id', (req, res) => {
@@ -24,18 +23,17 @@ router.post('/', (req, res) => {
     const field = requiredFields[i];
     if (!(field in req.body)) {
       const message = `Missing ${field} in request body`;
-      return res.status(400)
-				.send(message);
+      return res.status(400).send(message);
     }
   }
 		
   knex('items').insert({title: req.body.title}).returning(['id', 'title', 'completed', 'url'])
-    .then(function(result){
-      result[0].url = `http://localhost:8080/api/items/${result[0].id}`;
-      res.header('location', result[0].url);
-      return knex('items').where('id', result[0].id).update('url' ,result[0].url).returning(['id', 'title', 'completed', 'url']);
-    })
-    .then(result =>res.status(201).json(result[0]));
+  .then(function(result){
+    result[0].url = `http://localhost:8080/api/items/${result[0].id}`;
+    res.header('location', result[0].url);
+    return knex('items').where('id', result[0].id).update('url' ,result[0].url).returning(['id', 'title', 'completed', 'url']);
+  })
+  .then(result =>res.status(201).json(result[0]));
 });
 
 router.put('/:id', (req, res) => {
@@ -43,7 +41,7 @@ router.put('/:id', (req, res) => {
   knex('items')
   .where('id', req.params.id)
   .update({title: req.body.title, completed: req.body.completed})
-   .returning(['id', 'title', 'completed'])
+  .returning(['id', 'title', 'completed'])
   .then((result) => {
     res.json(result[0]);
   });
@@ -52,7 +50,6 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   knex('items').where('id', req.params.id).delete().then(resp => res.json(resp));
 });
-
 
 module.exports = router;
 
